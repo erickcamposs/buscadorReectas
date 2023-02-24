@@ -20,12 +20,21 @@ function obtnerFavoritos(){
 
 //Funciones
 //----- Categorias -----
-function consultarCategorias(){
+async function consultarCategorias(){
     const url = 'https://www.themealdb.com/api/json/v1/1/categories.php';
 
-    fetch(url)
-        .then(respuesta => respuesta.json())
-        .then(datos => llenarSelect(datos.categories))
+    // fetch(url)
+    //     .then(respuesta => respuesta.json())
+    //     .then(datos => llenarSelect(datos.categories))
+    
+    try {
+        const resultado = await fetch(url);
+        const datos = await resultado.json();
+        llenarSelect(datos.categories);
+
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function llenarSelect(categorias){
@@ -39,13 +48,21 @@ function llenarSelect(categorias){
     })
 }
 //----- Recetas -----
-function consultarRecetas(e){
+async function consultarRecetas(e){
     const categoria = e.target.value;
     const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoria}`;
 
-    fetch(url)
-        .then(respueta => respueta.json())
-        .then(datos => mostrarRecetas(datos.meals))
+    // fetch(url)
+    //     .then(respueta => respueta.json())
+    //     .then(datos => mostrarRecetas(datos.meals))
+
+    try {
+        const respuesta = await fetch(url);
+        const datos = await respuesta.json();
+        mostrarRecetas(datos.meals);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function mostrarRecetas(recetas){
@@ -92,12 +109,20 @@ function mostrarRecetas(recetas){
     })
 }
 
-function consultarReceta(idMeal){
+async function consultarReceta(idMeal){
     const url = `https://themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`;
 
-    fetch(url)
-        .then(respuesta => respuesta.json())
-        .then(datos => mostrarReceta(datos.meals[0]))
+    // fetch(url)
+    //     .then(respuesta => respuesta.json())
+    //     .then(datos => mostrarReceta(datos.meals[0]))
+
+    try {
+        const respuesta = await fetch(url);
+        const datos = await respuesta.json();
+        mostrarReceta(datos.meals[0]);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function mostrarReceta(receta){
